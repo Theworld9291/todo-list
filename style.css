@@ -70,3 +70,33 @@ body {
 .label {
     font-size: 20px;
 }
+.buttons {
+    display: flex;
+    width: 400px;
+    color: white;
+    margin-top: 15px;
+    justify-content: space-between;
+}
+.erase {
+    text-align: right;
+    width: fit-content;
+    cursor: pointer;
+    border: 1px solid #FED502;
+    padding: 3px;
+    border-radius: 3px;
+}
+.erase:hover {
+    transition: 1s;
+    border: 1px dashed #FED502;
+}
+.complete {
+    width: fit-content;
+    cursor: pointer;
+    border: 1px solid #FED502;
+    padding: 3px;
+    border-radius: 3px;
+}
+.complete:hover {
+    transition: 1s;
+    border: 1px dashed #FED502;
+}
