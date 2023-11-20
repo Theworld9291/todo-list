@@ -8,7 +8,8 @@ body {
     background-color: darkslateblue;
 }
 .wrap {
-    width: 600px;
+    /* width: 600px;  */ 
+    width: 400px;
     margin: 0 auto;
     margin-top: 200px;
     display: flex;
@@ -22,15 +23,31 @@ body {
 }
 .form {
     display: flex;
+    /* width: 350px; */
 }
 .input {
     width: 350px;
+    /* max-width: 350px; */
     height: 25px;
     border: 0;
 }
 .button {
     width: 50px;
     height: 25px;
+    background-color: gold;
+    border: 0;
+}
+
+.edit-input {
+    /* width: 250px; */
+    width: 270px;
+    padding-left: 5px;
+    height: 22px;
+    border: 0;
+}
+.edit-button {
+    width: 30px;
+    height: 22px;
     background-color: gold;
     border: 0;
 }

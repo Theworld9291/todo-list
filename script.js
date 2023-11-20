@@ -250,28 +250,65 @@ dels.forEach(e => {
     })
 })
 edits = document.querySelectorAll(".edit")
+edits.forEach(e => {
+    e.addEventListener("click", e => {
+        id = e.target.id 
+        item = document.querySelector(`#${id}`) 
+        itemText = item.childNodes[1].childNodes[3].innerText
+        item.childNodes[1].childNodes[3].style.display = "none"
+        item.childNodes[1].innerHTML += `<input type="text" class="edit-input" value="${itemText}"> <button class="edit-button">&#10004;</button>`
+        btn = item.querySelector(".edit-button")
+        btn.addEventListener("click", b => {
+            inputText = item.childNodes[1].childNodes[5].value
+            item.childNodes[1].childNodes[7].remove()
+            item.childNodes[1].childNodes[5].remove()
+            item.childNodes[1].childNodes[3].innerText = inputText
+            item.childNodes[1].childNodes[3].style.display = "block"
+            task = JSON.parse(localStorage.getItem(id))
+            task.label = inputText
+            localStorage.setItem(id, JSON.stringify(task))
+            console.log()
+        })
+        console.log(btn)
+    })
+})
+
 
 const complete = document.querySelector(".complete")
 const erase = document.querySelector(".erase")
 complete.addEventListener("click", () => {
     checkboxes = document.querySelectorAll(".checkbox")
+    k = 0
     i = 0
     checkboxes.forEach(e => {
         if (e.checked) {
-            e.checked = false
-            item = JSON.parse(localStorage.getItem(localStorage.key(i)))
-            item.check = false
-            localStorage.setItem(localStorage.key(i), JSON.stringify(item))
+            k++
         }
-        else {
-            e.checked = true
-            item = JSON.parse(localStorage.getItem(localStorage.key(i)))
-            item.check = true
-            localStorage.setItem(localStorage.key(i), JSON.stringify(item))
-        }
-        console.log(item)
-        i++
     })
+    if (k != checkboxes.length) {
+        checkboxes.forEach(e => {
+            if (!e.checked) {
+                e.checked = true
+                item = JSON.parse(localStorage.getItem(localStorage.key(i)))
+                item.check = true
+                localStorage.setItem(localStorage.key(i), JSON.stringify(item))
+            }
+            console.log(item)
+            i++
+        })
+    }
+    else {
+        checkboxes.forEach(e => {
+            if (e.checked) {
+                e.checked = false
+                item = JSON.parse(localStorage.getItem(localStorage.key(i)))
+                item.check = false
+                localStorage.setItem(localStorage.key(i), JSON.stringify(item))
+            }
+            console.log(item)
+            i++
+        })
+    }
 
     tasks = document.querySelectorAll("li")
     tasks.forEach(e => {
