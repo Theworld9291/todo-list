@@ -107,6 +107,31 @@ const addTask = function() {
             }
         })
     })
+    edits = document.querySelectorAll(".edit")
+    edits.forEach(e => {
+        e.addEventListener("click", e => {
+            id = e.target.id 
+            item = document.querySelector(`#${id}`) 
+            itemText = item.childNodes[1].childNodes[3].innerText
+            item.childNodes[1].childNodes[3].style.display = "none"
+            item.childNodes[1].innerHTML += `<input type="text" class="edit-input" value="${itemText}"> <button class="edit-button" id="edit-btn-${id}">&#10004;</button>`
+            btn = item.querySelector(`#edit-btn-${id}`)
+            item.childNodes[3].childNodes[1].style.display = "none"
+            btn.addEventListener("click", b => {
+                inputText = item.childNodes[1].childNodes[5].value
+                item.childNodes[1].childNodes[7].remove()
+                item.childNodes[1].childNodes[5].remove()
+                item.childNodes[1].childNodes[3].innerText = inputText
+                item.childNodes[1].childNodes[3].style.display = "block"
+                item.childNodes[3].childNodes[1].style.display = "block"
+                task = JSON.parse(localStorage.getItem(id))
+                task.label = inputText
+                localStorage.setItem(id, JSON.stringify(task))
+                console.log()
+            })
+            console.log(btn)
+        })
+    })
 }
 
 
@@ -256,14 +281,23 @@ edits.forEach(e => {
         item = document.querySelector(`#${id}`) 
         itemText = item.childNodes[1].childNodes[3].innerText
         item.childNodes[1].childNodes[3].style.display = "none"
-        item.childNodes[1].innerHTML += `<input type="text" class="edit-input" value="${itemText}"> <button class="edit-button">&#10004;</button>`
-        btn = item.querySelector(".edit-button")
+        item.childNodes[1].innerHTML += `<input type="text" class="edit-input" value="${itemText}"> <button class="edit-button" id="edit-btn-${id}">&#10004;</button>`
+        btn = item.querySelector(`#edit-btn-${id}`)
+        items = document.querySelectorAll(`#${id}`)
+        item.childNodes[3].childNodes[1].style.display = "none"
         btn.addEventListener("click", b => {
+            // edits = document.querySelectorAll(".edit")
+            // edits.forEach(t => {
+                
+            // })
+            // id = b.target.id
+            // btn = item.querySelector(`#edit-btn-${id}`)
             inputText = item.childNodes[1].childNodes[5].value
             item.childNodes[1].childNodes[7].remove()
             item.childNodes[1].childNodes[5].remove()
             item.childNodes[1].childNodes[3].innerText = inputText
             item.childNodes[1].childNodes[3].style.display = "block"
+            item.childNodes[3].childNodes[1].style.display = "block"
             task = JSON.parse(localStorage.getItem(id))
             task.label = inputText
             localStorage.setItem(id, JSON.stringify(task))
