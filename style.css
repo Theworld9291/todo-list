@@ -117,3 +117,9 @@ body {
     transition: 1s;
     border: 1px dashed #FED502;
 }
+.info {
+    display: flex;
+    width: 400px;
+    justify-content: space-between;
+    color: white;
+}

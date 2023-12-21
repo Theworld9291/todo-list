@@ -11,6 +11,23 @@ edits = document.querySelectorAll(".edit")
 
 const taskList = []
 
+calcTotal = function() {
+    const totalValue = document.querySelector(".total-value")
+    totalValue.innerText = localStorage.length
+}
+
+calcCompleted = function () {
+    const completedValue = document.querySelector(".completed-value")
+    completedCount = 0
+    for (i = 0; i < localStorage.length; i++) {
+        task = JSON.parse(localStorage.getItem(localStorage.key(i)))
+        if (task.check) {
+            completedCount++
+        }
+    }
+    completedValue.innerText = completedCount
+}
+
 const doneTask = function() {
     tasks = document.querySelectorAll("li")
     console.log(1)
@@ -34,6 +51,7 @@ const doneTask = function() {
         //console.log(e)
         
     })
+    calcCompleted()
 }
 
 const addTask = function() {
@@ -105,6 +123,8 @@ const addTask = function() {
                     localStorage.removeItem(item.id) 
                 } 
             }
+            calcCompleted()
+            calcTotal()
         })
     })
     edits = document.querySelectorAll(".edit")
@@ -115,23 +135,54 @@ const addTask = function() {
             itemText = item.childNodes[1].childNodes[3].innerText
             item.childNodes[1].childNodes[3].style.display = "none"
             item.childNodes[1].innerHTML += `<input type="text" class="edit-input" value="${itemText}"> <button class="edit-button" id="edit-btn-${id}">&#10004;</button>`
-            btn = item.querySelector(`#edit-btn-${id}`)
+            task = JSON.parse(localStorage.getItem(id))
+            
+            // if (item.childNodes[1].childNodes[1].checked == true) {
+               item.childNodes[1].childNodes[1].checked = task.check
+            // }
+            checkboxes = document.querySelectorAll(".checkbox")
+            checkboxes.forEach(e => {
+                e.removeEventListener("change", doneTask)
+                e.addEventListener("change", doneTask)
+            });
+            console.log(item.childNodes[1].childNodes[1])
+            btns = document.querySelectorAll(".edit-button")
+            // items = document.querySelectorAll(`#${id}`)
             item.childNodes[3].childNodes[1].style.display = "none"
-            btn.addEventListener("click", b => {
-                inputText = item.childNodes[1].childNodes[5].value
-                item.childNodes[1].childNodes[7].remove()
-                item.childNodes[1].childNodes[5].remove()
-                item.childNodes[1].childNodes[3].innerText = inputText
-                item.childNodes[1].childNodes[3].style.display = "block"
-                item.childNodes[3].childNodes[1].style.display = "block"
-                task = JSON.parse(localStorage.getItem(id))
-                task.label = inputText
-                localStorage.setItem(id, JSON.stringify(task))
-                console.log()
+            btns.forEach(btn => {
+                btn.addEventListener("click", b => {
+                    id = b.target.id.split("-")[2]+"-"+b.target.id.split("-")[3]
+                    item = document.querySelector(`#${id}`)
+                    console.log(id, item)
+                    // edits = document.querySelectorAll(".edit")
+                    // edits.forEach(t => {
+                        
+                    // })
+                    // id = b.target.id
+                    // btn = item.querySelector(`#edit-btn-${id}`)
+                    inputText = item.childNodes[1].childNodes[5].value
+                    item.childNodes[1].childNodes[7].remove()
+                    item.childNodes[1].childNodes[5].remove()
+                    item.childNodes[1].childNodes[3].innerText = inputText
+                    item.childNodes[1].childNodes[3].style.display = "block"
+                    item.childNodes[3].childNodes[1].style.display = "block"
+                    task = JSON.parse(localStorage.getItem(id))
+                    task.label = inputText
+                    localStorage.setItem(id, JSON.stringify(task))
+
+                    checkboxes = document.querySelectorAll(".checkbox")
+                    checkboxes.forEach(e => {
+                        e.removeEventListener("change", doneTask)
+                        e.addEventListener("change", doneTask)
+                    });
+                    // console.log()
+                })
             })
-            console.log(btn)
+            // console.log(btn)
         })
     })
+
+    calcTotal()
 }
 
 
@@ -223,9 +274,10 @@ dels.forEach(e => {
                 del_task.remove()
                 console.log(del_task)
                 localStorage.removeItem(item.id)
-                
             } 
         }
+        calcCompleted()
+        calcTotal()
     })
 })
 
@@ -263,17 +315,22 @@ addBtn.addEventListener("click", addTask)
 checkboxes.forEach(e => {
     e.addEventListener("change", doneTask)
 });
-dels = document.querySelectorAll(".delete")
-dels.forEach(e => {
-    e.addEventListener("click", e => {
-        for (i = 0; i < localStorage.length; i++) {
-            item = JSON.parse(localStorage.getItem(localStorage.key(i)))
-            if (e.target.id == item.id) {
-                localStorage.removeItem(item.id)
-            }
-        }
-    })
-})
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+// dels = document.querySelectorAll(".delete")
+// dels.forEach(e => {
+//     e.addEventListener("click", e => {
+//         for (i = 0; i < localStorage.length; i++) {
+//             item = JSON.parse(localStorage.getItem(localStorage.key(i)))
+//             if (e.target.id == item.id) {
+//                 localStorage.removeItem(item.id)
+//             }
+//         }
+//     })
+//     calcCompleted()
+// })
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// confirmEdit = function(b) {}
+
 edits = document.querySelectorAll(".edit")
 edits.forEach(e => {
     e.addEventListener("click", e => {
@@ -282,28 +339,50 @@ edits.forEach(e => {
         itemText = item.childNodes[1].childNodes[3].innerText
         item.childNodes[1].childNodes[3].style.display = "none"
         item.childNodes[1].innerHTML += `<input type="text" class="edit-input" value="${itemText}"> <button class="edit-button" id="edit-btn-${id}">&#10004;</button>`
-        btn = item.querySelector(`#edit-btn-${id}`)
-        items = document.querySelectorAll(`#${id}`)
+        task = JSON.parse(localStorage.getItem(id))
+            
+        // if (item.childNodes[1].childNodes[1].checked == true) {
+           item.childNodes[1].childNodes[1].checked = task.check
+        // }
+        checkboxes = document.querySelectorAll(".checkbox")
+        checkboxes.forEach(e => {
+            e.removeEventListener("change", doneTask)
+            e.addEventListener("change", doneTask)
+        });
+        console.log(item.childNodes[1].childNodes[1])
+        btns = document.querySelectorAll(".edit-button")
+        // items = document.querySelectorAll(`#${id}`)
         item.childNodes[3].childNodes[1].style.display = "none"
-        btn.addEventListener("click", b => {
-            // edits = document.querySelectorAll(".edit")
-            // edits.forEach(t => {
-                
-            // })
-            // id = b.target.id
-            // btn = item.querySelector(`#edit-btn-${id}`)
-            inputText = item.childNodes[1].childNodes[5].value
-            item.childNodes[1].childNodes[7].remove()
-            item.childNodes[1].childNodes[5].remove()
-            item.childNodes[1].childNodes[3].innerText = inputText
-            item.childNodes[1].childNodes[3].style.display = "block"
-            item.childNodes[3].childNodes[1].style.display = "block"
-            task = JSON.parse(localStorage.getItem(id))
-            task.label = inputText
-            localStorage.setItem(id, JSON.stringify(task))
-            console.log()
+        btns.forEach(btn => {
+            btn.addEventListener("click", b => {
+                id = b.target.id.split("-")[2]+"-"+b.target.id.split("-")[3]
+                item = document.querySelector(`#${id}`)
+                console.log(id, item)
+                // edits = document.querySelectorAll(".edit")
+                // edits.forEach(t => {
+                    
+                // })
+                // id = b.target.id
+                // btn = item.querySelector(`#edit-btn-${id}`)
+                inputText = item.childNodes[1].childNodes[5].value
+                item.childNodes[1].childNodes[7].remove()
+                item.childNodes[1].childNodes[5].remove()
+                item.childNodes[1].childNodes[3].innerText = inputText
+                item.childNodes[1].childNodes[3].style.display = "block"
+                item.childNodes[3].childNodes[1].style.display = "block"
+                task = JSON.parse(localStorage.getItem(id))
+                task.label = inputText
+                localStorage.setItem(id, JSON.stringify(task))
+
+                checkboxes = document.querySelectorAll(".checkbox")
+                checkboxes.forEach(e => {
+                    e.removeEventListener("change", doneTask)
+                    e.addEventListener("change", doneTask)
+                });
+                // console.log()
+            })
         })
-        console.log(btn)
+        // console.log(btn)
     })
 })
 
@@ -353,6 +432,7 @@ complete.addEventListener("click", () => {
             e.childNodes[1].childNodes[3].style.textDecoration = "none"
         }
     })
+    calcCompleted()
 })
 
 erase.addEventListener("click", () => {
@@ -365,4 +445,9 @@ erase.addEventListener("click", () => {
             list.removeChild(e)
         }
     })
+    calcCompleted()
+    calcTotal()
 })
+
+calcTotal()
+calcCompleted()
