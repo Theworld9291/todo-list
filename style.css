@@ -9,7 +9,8 @@ body {
 }
 .wrap {
     /* width: 600px;  */ 
-    width: 400px;
+    min-width: 300px;
+    max-width: 400px;
     margin: 0 auto;
     margin-top: 200px;
     display: flex;
@@ -20,13 +21,19 @@ body {
     color: white;
     font-size: 35px;
     margin-bottom: 15px;
+    min-width: inherit;
+    text-align: center;
+    /* max-width: 400px; */
 }
 .form {
     display: flex;
+    min-width: inherit;
+    /* max-width: 400px; */
     /* width: 350px; */
 }
 .input {
-    width: 350px;
+    max-width: 350px;
+    min-width: 250px;
     /* max-width: 350px; */
     height: 25px;
     border: 0;
@@ -54,7 +61,8 @@ body {
 
 .list {
     margin-top: 15px;
-    width: 400px;
+    /* max-width: 400px; */
+    min-width: inherit;
 }
 .task { 
     display: flex;
@@ -63,6 +71,8 @@ body {
     color: white;
     list-style-type: none;
     margin-bottom: 15px;
+    min-width: inherit;
+    /* max-width: 400px; */
 }
 .edit {
     width: 22px;
@@ -89,7 +99,8 @@ body {
 }
 .buttons {
     display: flex;
-    width: 400px;
+    min-width: inherit;
+    /* max-width: 400px; */
     color: white;
     margin-top: 15px;
     justify-content: space-between;
@@ -119,7 +130,25 @@ body {
 }
 .info {
     display: flex;
-    width: 400px;
+    min-width: inherit;
+    /* max-width: 400px; */
     justify-content: space-between;
     color: white;
+}
+@media screen and (max-width: 576px) {
+    .wrap {
+        /* width: 350px; */
+        /* min-width: 400px; */
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+}
+@media screen and (min-width: 576px) {
+    .wrap {
+        min-width: 400px;
+    }
+    .input {
+        min-width: 350px;
+    }
 }
