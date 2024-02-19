@@ -9,14 +9,15 @@ edits = document.querySelectorAll(".edit")
 
 
 
-const taskList = []
+// const taskList = []
 
-calcTotal = function() {
+
+const calcTotal = function() {
     const totalValue = document.querySelector(".total-value")
     totalValue.innerText = localStorage.length
 }
 
-calcCompleted = function () {
+const calcCompleted = function() {
     const completedValue = document.querySelector(".completed-value")
     completedCount = 0
     for (i = 0; i < localStorage.length; i++) {
@@ -30,7 +31,7 @@ calcCompleted = function () {
 
 const doneTask = function() {
     tasks = document.querySelectorAll("li")
-    console.log(1)
+    // console.log(1)
     tasks.forEach(e => {
         task = {id: e.childNodes[1].childNodes[1].id, label: e.childNodes[1].childNodes[3].innerText, check: e.childNodes[1].childNodes[1].checked}
           
@@ -57,15 +58,15 @@ const doneTask = function() {
 const addTask = function() {
     inputValue = input.value
     if (inputValue !== "") {
-        taskList.push(inputValue)
+        // taskList.push(inputValue)
         itemList = []
         for (i = 0; i < localStorage.length; i++) {
             itemList.push(localStorage.key(i))
         }
         itemList = itemList.sort()
-        console.log(itemList)
+        // console.log(itemList)
         idList = itemList.map((e) => Number(e.split("-")[1]))
-        console.log(idList)
+        // console.log(idList)
         // id = 1
         // for (i = 0; i < idList.length; i++) {
         //     if (idList[i] > id) {
@@ -130,6 +131,7 @@ const addTask = function() {
     edits = document.querySelectorAll(".edit")
     edits.forEach(e => {
         e.addEventListener("click", e => {
+            addBtn.removeEventListener("click", addTask)
             id = e.target.id 
             item = document.querySelector(`#${id}`) 
             itemText = item.childNodes[1].childNodes[3].innerText
@@ -145,15 +147,16 @@ const addTask = function() {
                 e.removeEventListener("change", doneTask)
                 e.addEventListener("change", doneTask)
             });
-            console.log(item.childNodes[1].childNodes[1])
+            // console.log(item.childNodes[1].childNodes[1])
             btns = document.querySelectorAll(".edit-button")
             // items = document.querySelectorAll(`#${id}`)
             item.childNodes[3].childNodes[1].style.display = "none"
             btns.forEach(btn => {
                 btn.addEventListener("click", b => {
+                    addBtn.addEventListener("click", addTask)
                     id = b.target.id.split("-")[2]+"-"+b.target.id.split("-")[3]
                     item = document.querySelector(`#${id}`)
-                    console.log(id, item)
+                    // console.log(id, item)
                     // edits = document.querySelectorAll(".edit")
                     // edits.forEach(t => {
                         
@@ -216,18 +219,18 @@ const addTask = function() {
 // }
 // keyList.sort()
 keys = Object.keys(localStorage) 
-console.log(keys)
+// console.log(keys)
 keyList = []
 keys.forEach((key) => {
     value = localStorage.getItem(key)
     keyList.push(key)
-    console.log(value)
+    // console.log(value)
 })
 keyList = keyList.sort()
-console.log(keyList)
+// console.log(keyList)
 for (i = 0; i < localStorage.length; i++) {
     item = JSON.parse(localStorage.getItem(keyList[i]))
-    console.log(keyList[i])
+    // console.log(keyList[i])
     if (item.check) {
         checked = "checked"
     }
@@ -272,7 +275,7 @@ dels.forEach(e => {
             if (e.target.id == item.id) {
                 del_task = document.querySelector(`#${item.id}`)
                 del_task.remove()
-                console.log(del_task)
+                // console.log(del_task)
                 localStorage.removeItem(item.id)
             } 
         }
@@ -334,6 +337,7 @@ checkboxes.forEach(e => {
 edits = document.querySelectorAll(".edit")
 edits.forEach(e => {
     e.addEventListener("click", e => {
+        addBtn.removeEventListener("click", addTask)
         id = e.target.id 
         item = document.querySelector(`#${id}`) 
         itemText = item.childNodes[1].childNodes[3].innerText
@@ -349,15 +353,16 @@ edits.forEach(e => {
             e.removeEventListener("change", doneTask)
             e.addEventListener("change", doneTask)
         });
-        console.log(item.childNodes[1].childNodes[1])
+        // console.log(item.childNodes[1].childNodes[1])
         btns = document.querySelectorAll(".edit-button")
         // items = document.querySelectorAll(`#${id}`)
         item.childNodes[3].childNodes[1].style.display = "none"
         btns.forEach(btn => {
             btn.addEventListener("click", b => {
+                addBtn.addEventListener("click", addTask)
                 id = b.target.id.split("-")[2]+"-"+b.target.id.split("-")[3]
                 item = document.querySelector(`#${id}`)
-                console.log(id, item)
+                // console.log(id, item)
                 // edits = document.querySelectorAll(".edit")
                 // edits.forEach(t => {
                     
@@ -406,7 +411,7 @@ complete.addEventListener("click", () => {
                 item.check = true
                 localStorage.setItem(localStorage.key(i), JSON.stringify(item))
             }
-            console.log(item)
+            // console.log(item)
             i++
         })
     }
@@ -418,7 +423,7 @@ complete.addEventListener("click", () => {
                 item.check = false
                 localStorage.setItem(localStorage.key(i), JSON.stringify(item))
             }
-            console.log(item)
+            // console.log(item)
             i++
         })
     }
@@ -440,7 +445,7 @@ erase.addEventListener("click", () => {
     tasks.forEach(e => {
         if (e.childNodes[1].childNodes[1].checked) {
             id = e.id
-            console.log(e)
+            // console.log(e)
             localStorage.removeItem(id)
             list.removeChild(e)
         }
